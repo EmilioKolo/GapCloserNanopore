@@ -58,7 +58,6 @@ def parse_args() -> Namespace:
         required=True,
         help="Input BAM file."
     )
-
     parser.add_argument(
         "--region",
         action="append",
@@ -67,19 +66,16 @@ def parse_args() -> Namespace:
             "Can be specified multiple times."
         )
     )
-
     parser.add_argument(
         "--include-unmapped",
         action="store_true",
         help="Include unmapped reads in the output."
     )
-
     parser.add_argument(
         "--output-folder",
         default=None,
         help="Folder for output fastq.gz (default: same as input BAM)."
     )
-
     parser.add_argument(
         "--output-name",
         default=None,
