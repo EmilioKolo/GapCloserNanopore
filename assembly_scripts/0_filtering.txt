@@ -1,0 +1,10 @@
+
+## Regions:
+# ChrC telomere: ChrC_C_glabrata_CBS138:1-5000 / ChrC_C_glabrata_CBS138:589500-594600
+# Gap in ChrC: ChrC_C_glabrata_CBS138:95600-100700 / ChrC_C_glabrata_CBS138:101600-106700
+
+# Get fastq files from BAM regions
+python extract_reads.py --input input.bam \
+    --region region1 --region region2 \
+    --output-folder results/ --output-name name.fastq.gz
+

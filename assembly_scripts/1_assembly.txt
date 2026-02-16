@@ -1,0 +1,36 @@
+
+### Raven assembly
+
+# Cleanup fastq files
+python remove_empty_reads.py --input input.fastq --output input_cleaned.fastq
+
+# Activate Raven in conda
+conda init
+conda activate raven_assembler
+
+# OPTIONAL: Uncompress fastq files
+gunzip -c input.fastq.gz > input.fastq
+zcat input.fastq.gz | raven -t 6 -F output.gfa - > output.fasta
+
+# Run raven
+raven -t 6 -F output.gfa input.fastq > output.fasta
+
+### Miniasm assembly
+
+# Use minimap2 to find overlaps for ONT reads
+minimap2 -x ava-ont -t 8 reads.fastq.gz reads.fastq.gz > reads.paf
+# Use ava-pb for PacBio
+
+# Generate the GFA assembly graph
+miniasm -f reads.fastq.gz reads.paf > assembly.gfa
+
+# Extract contig sequences from GFA
+awk '/^S/{print ">"$2"\n"$3}' assembly.gfa > contigs.fasta
+
+### RACON correction
+
+# Map raw reads back to the contigs
+minimap2 -x map-ont contigs.fasta reads.fastq.gz > reads_to_contigs.paf
+
+# Run Racon to polish
+racon reads.fastq.gz reads_to_contigs.paf contigs.fasta > polished_assembly.fasta
