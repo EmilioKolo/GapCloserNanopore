@@ -16,3 +16,32 @@ python main.py \
     --fasta reference.fasta \
     --out multi_mapped_coverage.png --binsize 10
 
+# Extract sequence between anchors from contig
+python extract_fasta_regions.py \
+    --input denovo_contig.fasta \
+    --region Contig:init-end \
+    --output-folder output/ \
+    --output-name gap_solved.fasta
+
+# Paste each extracted sequence into the gap region of the original genome
+python replace_region_in_fasta.py \
+    --reference reference.fasta \
+    --insert gap_solved.fasta \
+    --chrom chr \
+    --start start --end end \
+    --output reference_gap_solved.fasta
+
+# Re-align to create bam files
+minimap2 -ax map-ont \
+    reference_gap_solved.fasta \
+    reads.fastq \
+    | samtools sort -o remap.bam
+
+# Index bam files
+samtools index remap.bam
+
+# Coverage plots (done using CoveragePlotter: https://github.com/EmilioKolo/CoveragePlotter )
+python main.py \
+    --bam multi_mapped.bam \
+    --fasta reference.fasta \
+    --out multi_mapped_coverage.png --binsize 10
