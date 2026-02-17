@@ -107,12 +107,14 @@ def parse_args():
     parser.add_argument(
         "--anchor-id-substring",
         default='Chr',
-        help="Substring used to identify anchor sequences in MAFFT alignment."
+        help="Substring used to identify anchor sequences " +\
+             "in MAFFT alignment."
     )
     parser.add_argument(
         "--fasta-contigs",
         default=None,
-        help="FASTA file with ungapped query contigs (used if MAFFT is not provided)."
+        help="FASTA file with ungapped query contigs " +\
+             "(used if MAFFT is not provided)."
     )
 
     return parser.parse_args()
@@ -151,35 +153,39 @@ def plot_blast(blast_tsv, out_png, query_lengths_dict):
             s_end = int(fields[9])
             bitscore = float(fields[11])
 
+            strand = "+" if s_start <= s_end else "-"
+
             s_lo = min(s_start, s_end)
             s_hi = max(s_start, s_end)
 
             by_subject.setdefault(sid, []).append(
-                (qid, s_lo, s_hi, bitscore)
+                (qid, s_lo, s_hi, strand, bitscore)
             )
 
     if not by_subject:
-        print("[WARNING] BLAST file contains no alignments. Skipping plot.")
+        print("[WARNING] BLAST file contains no alignments.",
+              "Skipping plot.")
         return
 
     for sid, hits in by_subject.items():
         if sid not in query_lengths_dict:
-            print(
-                f"[WARNING] No length found for subject {sid}. Skipping."
-            )
+            print(f"[WARNING] No length found for subject {sid}.",
+                  "Skipping.")
             continue
 
         # Group hits by anchor (query ID)
         by_anchor = {}
-        for qid, s_lo, s_hi, bitscore in hits:
-            by_anchor.setdefault(qid, []).append((s_lo, s_hi, bitscore))
+        for qid, s_lo, s_hi, strand, bitscore in hits:
+            by_anchor.setdefault(qid, []).append(
+                (s_lo, s_hi, strand, bitscore)
+            )
 
         # Keep top 5 hits PER anchor
         top_hits = []
         for qid, ahits in by_anchor.items():
-            ahits.sort(key=lambda x: x[2], reverse=True)
-            for s_lo, s_hi, bitscore in ahits[:5]:
-                top_hits.append((qid, s_lo, s_hi, bitscore))
+            ahits.sort(key=lambda x: x[3], reverse=True)
+            for s_lo, s_hi, strand, bitscore in ahits[:5]:
+                top_hits.append((qid, s_lo, s_hi, strand, bitscore))
 
         subject_len = query_lengths_dict[sid]
 
@@ -196,7 +202,8 @@ def plot_blast(blast_tsv, out_png, query_lengths_dict):
 
         # Anchor hits
         y_labels = []
-        for i, (qid, s_lo, s_hi, bitscore) in enumerate(top_hits, start=1):
+        for i, (qid, s_lo, s_hi, strand, bitscore) in \
+            enumerate(top_hits, start=1):
             plt.hlines(
                 y=i,
                 xmin=s_lo,
@@ -224,6 +231,15 @@ def plot_blast(blast_tsv, out_png, query_lengths_dict):
         plt.close()
 
         print(f"[INFO] Saved BLAST plot: {out_file}")
+
+        # Write table for this subject
+        table_file = f"{out_png}.{sid}.tsv"
+        with open(table_file, "w") as out:
+            out.write("query_id\tsubject_start\tsubject_end\tstrand\n")
+            for qid, s_lo, s_hi, strand, bitscore in top_hits:
+                out.write(f"{qid}\t{s_lo}\t{s_hi}\t{strand}\n")
+        
+        print(f"[INFO] Saved plot table: {table_file}")
     return None
 
 
