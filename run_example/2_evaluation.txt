@@ -2,6 +2,7 @@
 # ChrC telomere: ChrC_C_glabrata_CBS138:1-5000 / ChrC_C_glabrata_CBS138:589500-594600
 # Gap in ChrC: ChrC_C_glabrata_CBS138:95600-100700 / ChrC_C_glabrata_CBS138:101600-106700
 
+
 ### Align anchors to contigs
 
 # Extract anchors from reference sequence
@@ -19,6 +20,14 @@ python align_fastas.py \
     --fasta2 assembly.fasta \
     --out-prefix output \
     --mafft-threads 4
+
+# Visualize the alignments
+
+python plot_alignments.py \
+    --blast-tsv alignment.blast.tsv \
+    --mafft-fasta alignment.mafft.fasta \
+    --out-prefix alignment_plots \
+    --anchor-id-substring ChrC_C_glabrata_CBS138
 
 ### Align reads to contig with Minimap2
 

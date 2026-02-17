@@ -55,3 +55,49 @@ python align_fastas.py \
     --fasta2 ./results/3569_gap_no_unmap.fasta \
     --out-prefix ./results/alignments/3569_gap_no_unmap \
     --mafft-threads 4
+
+# Visualize the alignments
+
+python plot_alignments.py \
+    --blast-tsv ./results/alignments/3511_gap_unmap.blast.tsv \
+    --mafft-fasta ./results/alignments/3511_gap_unmap.mafft.fasta \
+    --out-prefix ./results/alignments/3511_gap_unmap_plot \
+    --anchor-id-substring ChrC_C_glabrata_CBS138
+python plot_alignments.py \
+    --blast-tsv ./results/alignments/3511_gap_no_unmap.blast.tsv \
+    --mafft-fasta ./results/alignments/3511_gap_no_unmap.mafft.fasta \
+    --out-prefix ./results/alignments/3511_gap_no_unmap_plot \
+    --anchor-id-substring ChrC_C_glabrata_CBS138
+
+python plot_alignments.py \
+    --blast-tsv ./results/alignments/3512_gap_unmap.blast.tsv \
+    --mafft-fasta ./results/alignments/3512_gap_unmap.mafft.fasta \
+    --out-prefix ./results/alignments/3512_gap_unmap_plot \
+    --anchor-id-substring ChrC_C_glabrata_CBS138
+python plot_alignments.py \
+    --blast-tsv ./results/alignments/3512_gap_no_unmap.blast.tsv \
+    --mafft-fasta ./results/alignments/3512_gap_no_unmap.mafft.fasta \
+    --out-prefix ./results/alignments/3512_gap_no_unmap_plot \
+    --anchor-id-substring ChrC_C_glabrata_CBS138
+
+python plot_alignments.py \
+    --blast-tsv ./results/alignments/3567_gap_unmap.blast.tsv \
+    --mafft-fasta ./results/alignments/3567_gap_unmap.mafft.fasta \
+    --out-prefix ./results/alignments/3567_gap_unmap_plot \
+    --anchor-id-substring ChrC_C_glabrata_CBS138
+python plot_alignments.py \
+    --blast-tsv ./results/alignments/3567_gap_no_unmap.blast.tsv \
+    --mafft-fasta ./results/alignments/3567_gap_no_unmap.mafft.fasta \
+    --out-prefix ./results/alignments/3567_gap_no_unmap_plot \
+    --anchor-id-substring ChrC_C_glabrata_CBS138
+
+python plot_alignments.py \
+    --blast-tsv ./results/alignments/3569_gap_unmap.blast.tsv \
+    --mafft-fasta ./results/alignments/3569_gap_unmap.mafft.fasta \
+    --out-prefix ./results/alignments/3569_gap_unmap_plot \
+    --anchor-id-substring ChrC_C_glabrata_CBS138
+python plot_alignments.py \
+    --blast-tsv ./results/alignments/3569_gap_no_unmap.blast.tsv \
+    --mafft-fasta ./results/alignments/3569_gap_no_unmap.mafft.fasta \
+    --out-prefix ./results/alignments/3569_gap_no_unmap_plot \
+    --anchor-id-substring ChrC_C_glabrata_CBS138
