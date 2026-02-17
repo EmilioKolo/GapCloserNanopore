@@ -20,3 +20,16 @@ python align_fastas.py \
     --out-prefix output \
     --mafft-threads 4
 
+### Align reads to contig with Minimap2
+
+# Create bam file
+minimap2 -ax map-ont \
+    reference.fasta reads.fastq | samtools sort -o output.bam
+
+# Index bam file
+samtools index output.bam
+
+# Coverage plots (done using CoveragePlotter: https://github.com/EmilioKolo/CoveragePlotter )
+python main.py --bam output.bam \
+    --fasta reference.fasta \
+    --out output.png --binsize 10
