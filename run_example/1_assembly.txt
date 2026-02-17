@@ -15,6 +15,12 @@ zcat input.fastq.gz | raven -t 6 -F output.gfa - > output.fasta
 # Run raven
 raven -t 6 -F output.gfa input.fastq > output.fasta
 
+## OPTIONAL: Turn gfa files into fasta files
+python gfa_to_fasta.py \
+    --input assembly.gfa \
+    --output-name assembly.fasta \
+    --output-folder output/
+
 ### Miniasm assembly
 
 # Use minimap2 to find overlaps for ONT reads
