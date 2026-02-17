@@ -1,0 +1,22 @@
+
+# ChrC telomere: ChrC_C_glabrata_CBS138:1-5000 / ChrC_C_glabrata_CBS138:589500-594600
+# Gap in ChrC: ChrC_C_glabrata_CBS138:95600-100700 / ChrC_C_glabrata_CBS138:101600-106700
+
+### Align anchors to contigs
+
+# Extract anchors from reference sequence
+
+python extract_fasta_regions.py \
+    --input reference.fasta \
+    --region region1 [--region region2] \
+    --output-folder output/
+    --output-name regions.fasta
+
+# Align anchors to contigs
+
+python align_fastas.py \
+    --fasta1 anchors.fasta \
+    --fasta2 assembly.fasta \
+    --out-prefix output \
+    --mafft-threads 4
+
