@@ -2,8 +2,7 @@
 """
 align_fastas.py
 
-Run local BLAST and MAFFT on two FASTA files, generate an alignment,
-and produce a simple alignment identity graph.
+Run local BLAST and MAFFT on two FASTA files and generate an alignment.
 
 USAGE
 -----
@@ -40,18 +39,11 @@ OUTPUT FILES
 
 <out-prefix>.mafft.fasta
     MAFFT alignment of both sequences.
-
-<out-prefix>.identity.png
-    Plot of percent identity across the MAFFT alignment.
 """
 
 import argparse
 import subprocess
 from pathlib import Path
-
-from Bio import AlignIO
-from Bio.Align import MultipleSeqAlignment
-import matplotlib.pyplot as plt
 
 
 def parse_args():
@@ -144,41 +136,6 @@ def run_mafft(fasta1, fasta2, threads, out_fasta):
         check=True
     )
 
-def plot_identity(alignment_file, out_png):
-    """
-    Plot percent identity across a two-sequence alignment.
-    """
-    print("[INFO] Generating alignment identity plot.")
-
-    alignment = AlignIO.read(alignment_file, "fasta")
-
-    if len(alignment) != 2:
-        raise ValueError(
-            "Alignment does not contain exactly two sequences."
-        )
-
-    seq1 = alignment[0].seq
-    seq2 = alignment[1].seq
-
-    identity = []
-    for a, b in zip(seq1, seq2):
-        if a == "-" or b == "-":
-            identity.append(0)
-        elif a == b:
-            identity.append(100)
-        else:
-            identity.append(0)
-
-    plt.figure(figsize=(10, 3))
-    plt.plot(identity)
-    plt.ylim(0, 100)
-    plt.xlabel("Alignment position")
-    plt.ylabel("Percent identity")
-    plt.title("Pairwise identity across MAFFT alignment")
-    plt.tight_layout()
-    plt.savefig(out_png)
-    plt.close()
-
 def main():
     args = parse_args()
 
@@ -188,7 +145,6 @@ def main():
 
     blast_out = f"{prefix}.blast.tsv"
     mafft_out = f"{prefix}.mafft.fasta"
-    plot_out = f"{prefix}.identity.png"
 
     print("[INFO] Starting two-FASTA alignment workflow.")
     print(f"[INFO] FASTA1: {fasta1}")
@@ -196,12 +152,11 @@ def main():
 
     run_blast(fasta1, fasta2, args.blast_type, blast_out)
     run_mafft(fasta1, fasta2, args.mafft_threads, mafft_out)
-    plot_identity(mafft_out, plot_out)
 
     print("[INFO] All steps completed successfully.")
     print(f"[INFO] BLAST output: {blast_out}")
     print(f"[INFO] MAFFT alignment: {mafft_out}")
-    print(f"[INFO] Identity plot: {plot_out}")
+
 
 if __name__ == "__main__":
     main()
