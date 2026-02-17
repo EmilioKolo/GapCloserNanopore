@@ -1,0 +1,18 @@
+
+# Extract double-mapping reads
+samtools view -h input.bam \
+    | grep -E "^@|NH:i:[2-9]" \
+    | samtools view -bS - > multi_mapped.bam
+
+# Index the resulting BAM files
+samtools index multi_mapped.bam
+
+# Transform BAM to SAM for easier inspection
+samtools view -h -o multi_mapped.sam multi_mapped.bam
+
+# Coverage plots (done using CoveragePlotter: https://github.com/EmilioKolo/CoveragePlotter )
+python main.py \
+    --bam multi_mapped.bam \
+    --fasta reference.fasta \
+    --out multi_mapped_coverage.png --binsize 10
+
