@@ -1,4 +1,7 @@
 
+# Cleanup for fastq files with empty reads and initial assembly with Raven
+# Includes tansformation of gfa files into fasta files
+
 ### Raven assembly
 
 # Cleanup fastq files

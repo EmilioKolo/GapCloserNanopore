@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Align the gap region to the reference assembly and visualize the alignments 
+# (minimap2 version)
+
 # Make the script stop if any command fails
 set -e
 

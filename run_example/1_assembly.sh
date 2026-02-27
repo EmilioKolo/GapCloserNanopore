@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Cleanup for fastq files with empty reads and initial assembly with Raven
+
 # Make the script stop if any command fails
 set -e
 

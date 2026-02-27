@@ -1,4 +1,7 @@
 
+# Extract reads that map to multiple locations in the reference assembly
+# Re-align to the reference assembly after solving the gap and visualize the alignments
+
 # Extract double-mapping reads
 samtools view -h input.bam \
     | grep -E "^@|NH:i:[2-9]" \

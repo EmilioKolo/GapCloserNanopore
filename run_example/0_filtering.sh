@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Filtering of reads that map to the gap region with and without unmapped reads
+
 # Make the script stop if any command fails
 set -e
 

@@ -1,7 +1,8 @@
 
+# Align the gap region to the reference assembly and visualize the alignments
+
 # ChrC telomere: ChrC_C_glabrata_CBS138:1-5000 / ChrC_C_glabrata_CBS138:589500-594600
 # Gap in ChrC: ChrC_C_glabrata_CBS138:95600-100700 / ChrC_C_glabrata_CBS138:101600-106700
-
 
 ### Align anchors to contigs
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Transform gfa files into fasta files
+
 # Make the script stop if any command fails
 set -e
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Extract reads that map to multiple locations in the reference assembly
+
 # Make the script stop if any command fails
 set -e
 
