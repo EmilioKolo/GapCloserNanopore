@@ -34,5 +34,5 @@ samtools view -b -f 4 ./input/runs_3569_minimap_sorted.bam \
     > ./results/unmapped_reads/3569_minimap_sorted_unmapped.bam
 
 # Run through Fastqc
-fastqc --memory 32000 -o ./results/unmapped_reads/fastqc \
+fastqc -o ./results/unmapped_reads/fastqc \
     ./results/unmapped_reads/*.bam
