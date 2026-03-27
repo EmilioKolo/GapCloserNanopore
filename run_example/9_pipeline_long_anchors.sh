@@ -144,3 +144,15 @@ python align_fastas.py \
     --fasta2 ${OUTPUT_DIR}/raven_assembly/runs_${RUN_NUM}_minimap_unmap_gfa.fasta \
     --out-prefix ${OUTPUT_DIR}/raven_assembly/runs_${RUN_NUM}_minimap_unmap_gfa_align \
     --mafft-threads 4
+
+# Visualize the alignments
+python plot_alignments.py \
+    --blast-tsv ${OUTPUT_DIR}/flye_assembly/runs_${RUN_NUM}_minimap_unmap_gfa_align.blast.tsv \
+    --mafft-fasta ${OUTPUT_DIR}/flye_assembly/runs_${RUN_NUM}_minimap_unmap_gfa_align.mafft.fasta \
+    --out-prefix ${OUTPUT_DIR}/flye_assembly/runs_${RUN_NUM}_minimap_unmap_gfa_align.plot \
+    --anchor-id-substring ChrC_C_glabrata_CBS138
+python plot_alignments.py \
+    --blast-tsv ${OUTPUT_DIR}/raven_assembly/runs_${RUN_NUM}_minimap_unmap_gfa_align.blast.tsv \
+    --mafft-fasta ${OUTPUT_DIR}/raven_assembly/runs_${RUN_NUM}_minimap_unmap_gfa_align.mafft.fasta \
+    --out-prefix ${OUTPUT_DIR}/raven_assembly/runs_${RUN_NUM}_minimap_unmap_gfa_align.plot \
+    --anchor-id-substring ChrC_C_glabrata_CBS138
